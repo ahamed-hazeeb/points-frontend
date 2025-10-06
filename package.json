@@ -1,0 +1,11 @@
+{
+    "name": "virtual-points-frontend",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+      "dev": "npx live-server --port=3000 --host=localhost"
+    },
+    "devDependencies": {
+      "live-server": "^1.2.2"
+    }
+  }

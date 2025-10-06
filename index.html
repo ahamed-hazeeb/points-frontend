@@ -1,0 +1,33 @@
+<!-- DESIGN PATTERN: Single Page Application (SPA) + Modular Architecture -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Points Transfer</title>
+    
+    <!-- Vue.js Framework - Reactive Programming Pattern -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <!-- CSS Styles - Template Pattern -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 🎯 ROOT COMPONENT MOUNT POINT: Vue application container -->
+    <div id="app"></div>
+    
+    <!-- 🔗 MODULAR JAVASCRIPT LOADING: Dependency management -->
+    <!-- Service Layer (Facade Pattern) -->
+    <script src="js/services/api.js"></script>
+    
+    <!-- Component Layer (Component Pattern) -->
+    <script src="js/components/LoginForm.js"></script>
+    <script src="js/components/RegisterForm.js"></script>
+    <script src="js/components/TransferForm.js"></script>
+    <script src="js/components/TransfersList.js"></script>
+    <script src="js/components/ClaimPoints.js"></script>
+    
+    <!-- Main Application (Container Pattern) -->
+    <script src="js/app.js"></script>
+</body>
+</html>
