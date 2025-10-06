@@ -1,4 +1,4 @@
-# 🎨 Points Frontend
+# Points Frontend
 
 Vue.js Single Page Application for Virtual Points Transfer System.
 
