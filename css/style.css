@@ -27,6 +27,34 @@ body {
 .form-group {
     margin-bottom: 20px;
 }
+/* Corner refresh button styles */
+.refresh-corner-button {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: #17a2b8 !important;
+    border: none;
+    border-radius: 30px 30px;
+    width: 100px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    padding: 0 !important; /* Override any existing padding */
+}
+.refresh-corner-button:hover {
+    background: #138496 !important;
+    transform: scale(1.1);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+
+.refresh-corner-button:active {
+    transform: scale(0.95);
+}
 
 label {
     display: block;

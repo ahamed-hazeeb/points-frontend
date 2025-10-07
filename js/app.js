@@ -4,14 +4,20 @@ const { createApp } = Vue;
 const App = {
   template: `
         <div class="container">
+        
             <h1 style="color: white; text-align: center; margin-bottom: 30px;">Virtual Points Transfer</h1>
             
             <!-- USER INFO COMPONENT: Conditional rendering based on authentication -->
+              <button @click="forceRefreshPoints" class="refresh-corner-button" title="Refresh points">
+        Refresh
+    </button>
+    
             <div v-if="currentUser" class="user-info">
                 <p>Welcome, <strong>{{ currentUser.name }}</strong>!</p>
                 <p>Your Points: <span class="points">{{ currentUser.points }}</span></p>
                 <button @click="logout" style="background: #dc3545; margin-top: 10px;">Logout</button>
-            </div>
+            
+                </div>
 
             <!-- NAVIGATION COMPONENT: Router-like view switching -->
             <div class="nav">
@@ -138,7 +144,22 @@ const App = {
         this.currentView = "claim";
       }
     },
+    //  TRANSFER SUCCESS HANDLER: Called when transfer is created successfully
+    handleTransferSuccess(transferData) {
+      console.log("Transfer created successfully:", transferData);
 
+      // Show success message
+      this.showMessage(
+        `Transfer initiated! ${transferData.points} points will be sent to ${transferData.receiver_email}`,
+        "success"
+      );
+
+      // Refresh user data to update points balance (if needed)
+      this.refreshUser();
+
+      // Refresh transfers list to show the new transfer
+      this.loadUserTransfers();
+    },
     //  VIEW MANAGEMENT: Simple router implementation
     switchView(view) {
       this.currentView = view;
@@ -330,7 +351,17 @@ const App = {
       this.currentView = "login";
       this.showMessage("Logged out successfully", "success");
     },
-
+    //  MANUAL REFRESH: Force update points balance
+    async forceRefreshPoints() {
+      if (this.currentUser) {
+        try {
+          await this.refreshUser();
+          this.showMessage("Points balance updated", "success");
+        } catch (error) {
+          console.error("Failed to refresh points:", error);
+        }
+      }
+    },
     //  USER FEEDBACK: Message display system
     showMessage(text, type) {
       this.message = text;
