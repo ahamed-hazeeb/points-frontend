@@ -271,25 +271,42 @@ const App = {
       }
     },
 
-    //  DATA LOADING: User transfer history
+    //  DATA LOADING: User transfer history (both sent and received)
     async loadUserTransfers() {
       if (!this.currentUser) return;
 
       try {
         this.loading = true;
-        console.log("Loading transfers for user:", this.currentUser.id);
+        console.log("Loading all transfers for user:", this.currentUser.id);
 
-        const data = await ApiService.getUserTransfers(this.currentUser.id);
+        // Use the new method that gets both sent and received
+        const data = await ApiService.getAllUserTransfers(this.currentUser.id);
 
         if (data.success) {
           this.transfers = data.data;
-          console.log("Transfers loaded:", this.transfers);
+          console.log(
+            "All transfers loaded - Sent:",
+            this.transfers.sent?.length,
+            "Received:",
+            this.transfers.received?.length
+          );
         } else {
           this.showMessage("Failed to load transfers", "error");
         }
       } catch (error) {
         console.error("Error loading transfers:", error);
-        this.showMessage("Error loading transfers", "error");
+        // Fallback: try to load at least sent transfers
+        try {
+          const sentData = await ApiService.getUserTransfers(
+            this.currentUser.id
+          );
+          this.transfers = {
+            sent: sentData.success ? sentData.data : [],
+            received: [],
+          };
+        } catch (fallbackError) {
+          this.transfers = { sent: [], received: [] };
+        }
       } finally {
         this.loading = false;
       }

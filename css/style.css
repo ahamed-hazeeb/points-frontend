@@ -55,6 +55,22 @@ body {
 .refresh-corner-button:active {
     transform: scale(0.95);
 }
+/* Simple distinction between sent and received */
+.transfer-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+/* Optional: Add different border colors */
+div:has(> h3:contains(" Sent Transfers")) .transfer-item {
+    border-left: 4px solid #667eea;
+}
+
+div:has(> h3:contains(" Received Transfers")) .transfer-item {
+    border-left: 4px solid #28a745;
+}
 
 label {
     display: block;

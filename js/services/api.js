@@ -56,6 +56,41 @@ class ApiService {
     });
     return this.handleResponse(response);
   }
+  //  GET USER CLAIMS: Received transfers
+  static async getUserClaims(userId) {
+    // First get user email, then get claims by email
+    const userData = await this.getUser(userId);
+    if (!userData.success) {
+      throw new Error("User not found");
+    }
+
+    const userEmail = userData.data.email;
+    const response = await fetch(
+      `${API_BASE.receiver}/claims/${encodeURIComponent(userEmail)}`
+    );
+    return this.handleResponse(response);
+  }
+
+  //  GET ALL TRANSFERS: Both sent and received
+  static async getAllUserTransfers(userId) {
+    try {
+      const [sentData, receivedData] = await Promise.all([
+        this.getUserTransfers(userId),
+        this.getUserClaims(userId),
+      ]);
+
+      return {
+        success: true,
+        data: {
+          sent: sentData.success ? sentData.data : [],
+          received: receivedData.success ? receivedData.data : [],
+        },
+      };
+    } catch (error) {
+      console.error("Error fetching all transfers:", error);
+      throw error;
+    }
+  }
 
   static async getUserTransfers(userId) {
     const response = await fetch(`${API_BASE.sender}/transfers/${userId}`);
